@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  web:
+    image: php:8.2-apache
+    container_name: login-web
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    volumes:
+      - ./web:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: login-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: login_db
+      MYSQL_USER: binay
+      MYSQL_PASSWORD: password123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+
